@@ -12,20 +12,27 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useContext, useState } from "react";
 import { ChatContext } from "../store/context/chat-context";
 
-const ChatWriter = () => {
+const ChatWriter = ({ messageListRef }) => {
   const { messages, addMessage } = useContext(ChatContext);
   const [inputValues, setInputValues] = useState({
     name: "",
     message: "",
   });
 
+  const handleFocus = () => {
+    messageListRef.current.scrollToOffset({ offset: 5000 });
+  };
   const handleNameChange = (value) => {
+    messageListRef.current.scrollToOffset({ offset: 5000 });
+
     setInputValues((prev) => {
       return { ...prev, name: value };
     });
   };
 
   const handleMessageChange = (value) => {
+    messageListRef.current.scrollToOffset({ offset: 5000 });
+
     setInputValues((prev) => {
       return { ...prev, message: value };
     });
@@ -41,6 +48,7 @@ const ChatWriter = () => {
     <View style={styles.container}>
       <View style={{ flex: 6, gap: 12, flexDirection: "column" }}>
         <TextInput
+          onFocus={handleFocus}
           onChangeText={handleNameChange}
           multiline={false}
           style={[styles.textInput, { flex: 1 }]}
@@ -49,6 +57,7 @@ const ChatWriter = () => {
           placeholder="Imię"
         />
         <TextInput
+          onFocus={handleFocus}
           onChangeText={handleMessageChange}
           multiline={true}
           style={[styles.textInput, { minHeight: 60 }]}
